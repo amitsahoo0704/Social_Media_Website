@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  server:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./Server:/app
+      - /app/node_modules
+    environment:
+      - MONGO_DB=mongodb://mongo:27017/socialApp
+      - PORT=4000
+      - JWT_KEY=change_this_secret
+    ports:
+      - "4000:4000"
+    command: sh -c "npm install && npm run start"
+    depends_on:
+      - mongo
+
+  client:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - PORT=3000
+      - BROWSER=none
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    depends_on:
+      - server
+
+volumes:
+  mongo_data:

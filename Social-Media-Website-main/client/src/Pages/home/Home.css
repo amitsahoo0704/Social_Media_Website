@@ -1,0 +1,16 @@
+.Home{
+    position: relative;
+    display: grid;
+    grid-template-columns: 18rem minmax(600px, 780px) 20rem;   
+    gap: 1.25rem;
+    padding-top: 80px; /* space for navbar */
+}
+
+/* make center column posts look like cards */
+.Home .PostSide, .Home .ProfileSide, .Home .RightSide{
+    padding: 0.5rem;
+}
+
+.Home .PostSide .card, .Home .ProfileSide .card, .Home .RightSide .card{
+    border-radius: 10px;
+}
